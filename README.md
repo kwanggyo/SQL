@@ -149,3 +149,100 @@ DELETE FROM classmates
 WHERE name='팡교';
 ```
 
+## 심화 SQL문
+
+### Expressions
+
+- COUNT (레코드 값들의 개수 반환)
+
+  ```
+  SELECT COUNT(*) FROM users;
+  ```
+
+- AVG (레코드 값들의 평균값 반환)
+
+  ```
+  SELECT AVG(age)
+  FROM users
+  WHERE age >= 30;
+  ```
+
+- MAX (레코드 값들의 최대값 반환)
+
+- MIN (레코드 값들의 최소값 반환)
+
+- SUM (레코드 값들의 합 반환)
+
+### LIKE
+
+LIKE는 두 가지 와일드 카드(언더스코어 그리고 퍼센트 기호)와 함께 동작한다.
+
+- `_` (반드시 이 자리에 한 개의 문자가 존재해야 한다는 뜻)
+
+  ```
+  -- 20대인 사람들만 가져올 때 --
+  SELECT *
+  FROM users
+  WHERE age LIKE '2_';
+  ```
+
+- `%` (이 자리에 문자열이 있을 수도, 없을 수도 있다. 0개 이상이라는 뜻)
+
+  ```
+  -- 지역번호가 02인 사람만 가져올 때 --
+  SELECT *
+  FROM users
+  WHERE phone LIKE '02-%';
+  ```
+
+- 두 개를 조합해서 사용할 수도 있다.
+
+  ```
+  -- 핸드폰 중간 번호가 반드시 4자리면서 511로 시작되는 사람들 --
+  
+  SELECT * FROM users
+  WHERE phone LIKE '%-511_-%';
+  ```
+
+### ORDER BY(정렬)
+
+- ASC : 오름차순, DESC : 내림차순
+
+  ```sql
+  SELECT columns FROM table
+  ORDER BY column1, column2 ASC | DESC;
+  
+  -- ASC: 오름차순 / DESC: 내림차순 --
+  ```
+
+- 예시
+
+  ```sql
+  -- 나이, 성 순서로 오름차순 정렬하여 상위 10개만 뽑아보면? --
+  SELECT * 
+  FROM users
+  ORDER BY age, last_name ASC
+  LIMIT 10;
+  ```
+
+### GROUP BY
+
+- 지정된 기준에 따라 행 세트를 그룹으로 결합한다.
+
+- 데이터를 요약하는 상황에서 주로 사용한다.
+
+  ```sql
+  SELECT column1, aggregate_function(column_2)
+  FROM table
+  GROUP BY column1, column2;
+  ```
+
+- 예시
+
+  ```sql
+  -- 성(last_name)씨가 몇 명인지 조회할 때 --
+  SELECT last_name, COUNT(*)
+  FROM users
+  GROUP BY last_name;
+  ```
+
